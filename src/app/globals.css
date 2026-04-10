@@ -164,8 +164,10 @@ body {
   color: #0D0D0D;
 }
 
-/* ── HIDE DEFAULT CURSOR ── */
-* { cursor: none !important; }
+/* ── HIDE DEFAULT CURSOR (fine-pointer devices only) ── */
+@media (pointer: fine) {
+  * { cursor: none !important; }
+}
 
 /* ── UTILITY CLASSES ── */
 @layer utilities {

@@ -8,6 +8,17 @@ export function Cursor() {
   const { x, y } = useMousePosition();
   const [isPointer, setIsPointer] = useState(false);
   const [isHidden, setIsHidden] = useState(true);
+  const [isFinePointer, setIsFinePointer] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(pointer: fine)").matches;
+  });
+
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: fine)");
+    const handleChange = (e: MediaQueryListEvent) => setIsFinePointer(e.matches);
+    mq.addEventListener("change", handleChange);
+    return () => mq.removeEventListener("change", handleChange);
+  }, []);
 
   useEffect(() => {
     const handleMouseEnter = () => setIsHidden(false);
@@ -29,7 +40,7 @@ export function Cursor() {
     };
   }, []);
 
-  if (isHidden) return null;
+  if (!isFinePointer || isHidden) return null;
 
   return (
     <>
