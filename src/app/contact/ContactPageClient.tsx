@@ -278,7 +278,7 @@ export function ContactPageClient() {
 
             <div>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-8">
+                <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-10">
                   <div className="mb-6">
                     <div className="text-xs font-mono uppercase text-[var(--muted)]">
                       Step {step} of 3

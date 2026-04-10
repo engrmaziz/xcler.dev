@@ -89,6 +89,9 @@ export default async function ProjectPage({ params }: Props) {
 
   const techStack = project.techStack ?? [];
   const results = project.results ?? [];
+  const categoryLabel = project.category
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
 
   return (
     <PageWrapper>
@@ -111,7 +114,7 @@ export default async function ProjectPage({ params }: Props) {
             <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-5">
               <div className="lg:col-span-3">
                 <span className="inline-flex items-center rounded border border-[var(--border)] px-3 py-1 text-xs font-mono uppercase tracking-wide text-[var(--muted)]">
-                  {project.category}
+                  {categoryLabel}
                 </span>
                 <h1 className="mt-4 font-display text-[clamp(3rem,8vw,7rem)] leading-[0.9] text-[var(--text)]">
                   {project.title}
@@ -178,6 +181,7 @@ export default async function ProjectPage({ params }: Props) {
                     src={project.imageUrl}
                     alt={project.title}
                     fill
+                    sizes="(max-width: 1024px) 100vw, 80vw"
                     className="object-cover"
                   />
                 </div>
