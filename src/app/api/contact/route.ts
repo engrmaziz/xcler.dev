@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
-import { supabase } from "@/lib/supabase";
+import { getSupabaseClient } from "@/lib/supabase";
 import { generateClientEmailHTML, generateTeamEmailHTML } from "@/lib/email-templates";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -34,28 +34,37 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid email" }, { status: 400 });
     }
 
-    const { data, error } = await supabase
-      .from("inquiries")
-      .insert([
-        {
-          name,
-          email,
-          company,
-          website,
-          whatsapp,
-          service,
-          budget,
-          timeline,
-          message,
-          source,
-          status: "new",
-        },
-      ])
-      .select()
-      .single();
+    const supabase = getSupabaseClient();
+    let inquiryId: string | null = null;
 
-    if (error) {
-      console.error("Supabase error:", error);
+    if (supabase) {
+      const { data, error } = await supabase
+        .from("inquiries")
+        .insert([
+          {
+            name,
+            email,
+            company,
+            website,
+            whatsapp,
+            service,
+            budget,
+            timeline,
+            message,
+            source,
+            status: "new",
+          },
+        ])
+        .select()
+        .single();
+
+      if (error) {
+        console.error("Supabase error:", error);
+      } else {
+        inquiryId = data?.id ?? null;
+      }
+    } else {
+      console.warn("Supabase not configured; skipping inquiry insert.");
     }
 
     const receivedAt = new Date().toISOString();
@@ -94,7 +103,7 @@ export async function POST(request: NextRequest) {
       }),
     });
 
-    return NextResponse.json({ success: true, id: data?.id || "saved" });
+    return NextResponse.json({ success: true, id: inquiryId ?? "saved" });
   } catch (error) {
     console.error("Contact API error:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { PROJECTS, SITE_CONFIG } from "@/lib/constants";
-import { supabase } from "@/lib/supabase";
+import { getSupabaseClient } from "@/lib/supabase";
 import { PageWrapper } from "@/components/layout/PageWrapper";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import type { Project } from "@/types";
@@ -14,6 +14,11 @@ interface Props {
 }
 
 async function getProject(slug: string): Promise<Project | undefined> {
+  const supabase = getSupabaseClient();
+  if (!supabase) {
+    return PROJECTS.find((project) => project.slug === slug);
+  }
+
   const { data, error } = await supabase
     .from("projects")
     .select("*")

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PROJECTS } from "@/lib/constants";
-import { supabase } from "@/lib/supabase";
+import { getSupabaseClient } from "@/lib/supabase";
 import { PageWrapper } from "@/components/layout/PageWrapper";
 import { WorkFilter } from "@/components/work/WorkFilter";
 import type { Project } from "@/types";
@@ -16,6 +16,11 @@ export const metadata: Metadata = {
 };
 
 async function getProjects(): Promise<Project[]> {
+  const supabase = getSupabaseClient();
+  if (!supabase) {
+    return PROJECTS;
+  }
+
   const { data, error } = await supabase
     .from("projects")
     .select("*")
