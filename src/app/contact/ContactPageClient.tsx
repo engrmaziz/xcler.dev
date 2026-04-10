@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { type ReactElement, useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { AnimatePresence, motion, useAnimation } from "framer-motion";
@@ -38,7 +38,7 @@ interface ContactFormValues {
   source?: string;
 }
 
-const SERVICE_ICON_MAP: Record<string, JSX.Element> = {
+const SERVICE_ICON_MAP: Record<string, ReactElement> = {
   web: <Monitor size={20} />,
   app: <Smartphone size={20} />,
   automation: <Zap size={20} />,
