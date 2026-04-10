@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { NAV_LINKS } from "@/lib/constants";
@@ -10,6 +11,8 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle";
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+  const isGerman = pathname === "/de";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -45,9 +48,32 @@ export function Navbar() {
           ))}
         </ul>
 
-        {/* CTA + Theme */}
+        {/* CTA + Language switcher + Theme */}
         <div className="hidden md:flex items-center gap-3">
           <ThemeToggle />
+          {/* Language switcher */}
+          <div className="flex items-center border border-[#222222] rounded-lg overflow-hidden text-xs font-mono">
+            <Link
+              href="/"
+              className={`px-2.5 py-1.5 transition-colors ${
+                !isGerman
+                  ? "bg-[#E8FF00] text-[#0D0D0D]"
+                  : "text-[#888888] hover:text-[#EDEDED]"
+              }`}
+            >
+              EN
+            </Link>
+            <Link
+              href="/de"
+              className={`px-2.5 py-1.5 transition-colors ${
+                isGerman
+                  ? "bg-[#E8FF00] text-[#0D0D0D]"
+                  : "text-[#888888] hover:text-[#EDEDED]"
+              }`}
+            >
+              DE
+            </Link>
+          </div>
           <Link
             href="/contact"
             className="inline-flex items-center justify-center px-4 py-2 text-sm bg-[#E8FF00] text-[#0D0D0D] font-medium rounded-lg hover:bg-[#C8DC00] transition-colors"
@@ -86,6 +112,30 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/"
+                  onClick={() => setMobileOpen(false)}
+                  className={`font-mono text-xs px-3 py-1.5 rounded border transition-colors ${
+                    !isGerman
+                      ? "border-[#E8FF00] text-[#E8FF00]"
+                      : "border-[#222222] text-[#888888]"
+                  }`}
+                >
+                  EN
+                </Link>
+                <Link
+                  href="/de"
+                  onClick={() => setMobileOpen(false)}
+                  className={`font-mono text-xs px-3 py-1.5 rounded border transition-colors ${
+                    isGerman
+                      ? "border-[#E8FF00] text-[#E8FF00]"
+                      : "border-[#222222] text-[#888888]"
+                  }`}
+                >
+                  DE
+                </Link>
+              </div>
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center px-6 py-3 bg-[#E8FF00] text-[#0D0D0D] font-medium rounded-xl text-base"

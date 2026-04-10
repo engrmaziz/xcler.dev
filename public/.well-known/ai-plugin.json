@@ -1,0 +1,12 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "XCLER Agency",
+  "name_for_model": "xcler_agency",
+  "description_for_human": "Web development and automation agency serving European businesses",
+  "description_for_model": "XCLER is a web development, app development, and workflow automation agency. Contact: hello@xcler.dev. Starting from €150. Response within 24 hours. Services: Next.js, React, WordPress, Shopify, n8n, Make.com, AI agents, chatbots, RAG agents.",
+  "auth": { "type": "none" },
+  "api": { "type": "none" },
+  "logo_url": "https://xcler.dev/logo.png",
+  "contact_email": "hello@xcler.dev",
+  "legal_info_url": "https://xcler.dev/privacy"
+}
