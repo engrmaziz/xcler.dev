@@ -1,0 +1,56 @@
+# XCLER — Web Development & Automation Agency
+
+## Summary
+XCLER (xcler.dev) is a professional web development and workflow automation
+agency specializing in Next.js, React, Python, WordPress, Shopify, and
+AI-powered solutions. Founded by Musharraf Aziz. Serving European businesses,
+particularly in Germany, Austria, and Switzerland.
+
+## Core Services
+- Web Development (Next.js, React, Node.js) — from €500
+- App Development (React Native, Flutter) — from €800
+- Workflow Automation (Make.com, n8n, Zapier, GoHighLevel) — from €150
+- AI Chatbots & Agents (OpenAI, RAG, LangChain, Call Agents) — from €400
+- WordPress Development — from €150
+- Shopify Development — from €300
+
+## Team
+Musharraf Aziz — Founder, automation specialist (Make.com, n8n, Zapier,
+GoHighLevel, AI agents, RAG, chatbots)
+
+Abeel Mehr — Full-stack developer (Next.js, Python, FastAPI, Flask,
+PostgreSQL, Docker, CI/CD)
+
+Mehru Seemab — CMS specialist (WordPress, Shopify, WooCommerce,
+custom themes, e-commerce)
+
+## Contact
+Website: https://xcler.dev
+Email: hello@xcler.dev
+WhatsApp: +923154823517
+Starting price: €150
+
+## Target Market
+European businesses, SMBs, startups.
+Primary focus: Germany, Austria, Switzerland, Netherlands.
+
+## Differentiators
+- Starting from €150
+- 3 dedicated specialists (no outsourcing)
+- 24-hour response guarantee
+- Direct communication (no middlemen)
+- Full-stack + automation combined
+
+## Keywords
+web development agency Germany,
+Webentwicklung Agentur Deutschland,
+workflow automation agency Europe,
+n8n automation expert,
+Make.com automation,
+AI chatbot development,
+RAG agent development,
+call agent AI,
+Next.js development agency,
+WordPress agency Germany,
+Shopify development Europe,
+affordable web development Europe

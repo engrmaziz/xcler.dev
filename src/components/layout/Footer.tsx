@@ -113,10 +113,30 @@ export function Footer() {
           <p className="text-xs text-[#888888]">
             © {new Date().getFullYear()} XCLER. All rights reserved.
           </p>
-          <p className="text-xs text-[#888888]">
-            Built by{" "}
-            <span className="text-[#E8FF00]">{SITE_CONFIG.founder}</span>
-          </p>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/privacy"
+              className="text-xs text-[#888888] hover:text-[#EDEDED] transition-colors font-mono"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/terms"
+              className="text-xs text-[#888888] hover:text-[#EDEDED] transition-colors font-mono"
+            >
+              Terms
+            </Link>
+            <Link
+              href="/de"
+              className="text-xs text-[#888888] hover:text-[#E8FF00] transition-colors font-mono"
+            >
+              Deutsch 🇩🇪
+            </Link>
+            <p className="text-xs text-[#888888]">
+              Built by{" "}
+              <span className="text-[#E8FF00]">{SITE_CONFIG.founder}</span>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

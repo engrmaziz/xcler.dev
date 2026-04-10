@@ -1,0 +1,19 @@
+/* TEAM */
+Musharraf Aziz — Founder & Automation Architect
+Site: xcler.dev
+Twitter: @xclerdev
+Location: Pakistan / Europe
+
+Abeel Mehr — Lead Full-Stack Developer
+Skills: Next.js, Python, FastAPI, PostgreSQL, Docker
+
+Mehru Seemab — CMS & E-commerce Specialist
+Skills: WordPress, Shopify, WooCommerce, PHP
+
+/* SITE */
+Last update: 2025
+Standards: HTML5, CSS3, JavaScript ES2024
+Software: Next.js, Tailwind CSS, Framer Motion, Supabase
+
+/* THANKS */
+Built with Next.js & deployed on Vercel
