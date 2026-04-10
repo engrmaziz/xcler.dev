@@ -3,8 +3,6 @@ import { Resend } from "resend";
 import { getSupabaseClient } from "@/lib/supabase";
 import { generateClientEmailHTML, generateTeamEmailHTML } from "@/lib/email-templates";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: NextRequest) {
@@ -69,39 +67,46 @@ export async function POST(request: NextRequest) {
 
     const receivedAt = new Date().toISOString();
 
-    await resend.emails.send({
-      from: "XCLER Website <noreply@xcler.dev>",
-      to: ["hello@xcler.dev"],
-      subject: `🚀 New Project Brief — ${name} (${service})`,
-      html: generateTeamEmailHTML({
-        name,
-        email,
-        company,
-        website,
-        whatsapp,
-        service,
-        budget,
-        timeline,
-        message,
-        source,
-        receivedAt,
-      }),
-    });
+    const resendApiKey = process.env.RESEND_API_KEY;
+    if (resendApiKey) {
+      const resend = new Resend(resendApiKey);
 
-    const firstName = String(name).split(" ")[0];
+      await resend.emails.send({
+        from: "XCLER Website <noreply@xcler.dev>",
+        to: ["hello@xcler.dev"],
+        subject: `🚀 New Project Brief — ${name} (${service})`,
+        html: generateTeamEmailHTML({
+          name,
+          email,
+          company,
+          website,
+          whatsapp,
+          service,
+          budget,
+          timeline,
+          message,
+          source,
+          receivedAt,
+        }),
+      });
 
-    await resend.emails.send({
-      from: "Musharraf at XCLER <hello@xcler.dev>",
-      replyTo: "hello@xcler.dev",
-      to: [email],
-      subject: `Got your brief, ${firstName}! ✓ — XCLER`,
-      html: generateClientEmailHTML({
-        firstName,
-        service,
-        budget,
-        timeline,
-      }),
-    });
+      const firstName = String(name).split(" ")[0];
+
+      await resend.emails.send({
+        from: "Musharraf at XCLER <hello@xcler.dev>",
+        replyTo: "hello@xcler.dev",
+        to: [email],
+        subject: `Got your brief, ${firstName}! ✓ — XCLER`,
+        html: generateClientEmailHTML({
+          firstName,
+          service,
+          budget,
+          timeline,
+        }),
+      });
+    } else {
+      console.warn("Resend API key missing; skipping email notifications.");
+    }
 
     return NextResponse.json({ success: true, id: inquiryId ?? "saved" });
   } catch (error) {
