@@ -1,43 +1,116 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
+import { Resend } from "resend";
+import { getSupabaseClient } from "@/lib/supabase";
+import { generateClientEmailHTML, generateTeamEmailHTML } from "@/lib/email-templates";
 
-const schema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
-  whatsapp: z.string().optional(),
-  company: z.string().optional(),
-  website: z.string().optional(),
-  service: z.string().min(1),
-  budget: z.string().min(1),
-  timeline: z.string().min(1),
-  message: z.string().min(20),
-});
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const body = await req.json();
-    const data = schema.parse(body);
+    const body = await request.json();
+    const {
+      name,
+      email,
+      company,
+      website,
+      whatsapp,
+      service,
+      budget,
+      timeline,
+      message,
+      source,
+    } = body ?? {};
 
-    // Import email utilities dynamically to avoid build-time env errors
-    const { sendContactEmail, sendAutoReply } = await import("@/lib/email");
-
-    await Promise.all([
-      sendContactEmail({ ...data, source: "website-contact-form" }),
-      sendAutoReply(data.name, data.email),
-    ]);
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
+    if (!name || !email || !message || !service) {
       return NextResponse.json(
-        { error: "Invalid form data", details: error.issues },
+        { error: "Missing required fields" },
         { status: 400 }
       );
     }
-    console.error("Contact form error:", error);
-    return NextResponse.json(
-      { error: "Failed to send message" },
-      { status: 500 }
-    );
+
+    if (!emailRegex.test(email)) {
+      return NextResponse.json({ error: "Invalid email" }, { status: 400 });
+    }
+
+    const supabase = getSupabaseClient();
+    let inquiryId: string | null = null;
+
+    if (supabase) {
+      const { data, error } = await supabase
+        .from("inquiries")
+        .insert([
+          {
+            name,
+            email,
+            company,
+            website,
+            whatsapp,
+            service,
+            budget,
+            timeline,
+            message,
+            source,
+            status: "new",
+          },
+        ])
+        .select()
+        .single();
+
+      if (error) {
+        console.error("Supabase error:", error);
+      } else {
+        inquiryId = data?.id ?? null;
+      }
+    } else {
+      console.warn("Supabase not configured; skipping inquiry insert.");
+    }
+
+    const receivedAt = new Date().toISOString();
+
+    const resendApiKey = process.env.RESEND_API_KEY;
+    if (resendApiKey) {
+      const resend = new Resend(resendApiKey);
+
+      await resend.emails.send({
+        from: "XCLER Website <noreply@xcler.dev>",
+        to: ["hello@xcler.dev"],
+        subject: `🚀 New Project Brief — ${name} (${service})`,
+        html: generateTeamEmailHTML({
+          name,
+          email,
+          company,
+          website,
+          whatsapp,
+          service,
+          budget,
+          timeline,
+          message,
+          source,
+          receivedAt,
+        }),
+      });
+
+      const firstName = String(name).split(" ")[0];
+
+      await resend.emails.send({
+        from: "Musharraf at XCLER <hello@xcler.dev>",
+        replyTo: "hello@xcler.dev",
+        to: [email],
+        subject: `Got your brief, ${firstName}! ✓ — XCLER`,
+        html: generateClientEmailHTML({
+          firstName,
+          service,
+          budget,
+          timeline,
+        }),
+      });
+    } else {
+      console.warn("Resend API key missing; skipping email notifications.");
+    }
+
+    return NextResponse.json({ success: true, id: inquiryId ?? "saved" });
+  } catch (error) {
+    console.error("Contact API error:", error);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
