@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  /* ── DARK THEME COLORS ── */
+  --color-dark-bg:      #0D0D0D;
+  --color-dark-surface: #141414;
+  --color-dark-card:    #181818;
+  --color-dark-border:  #222222;
+  --color-dark-hover:   #2A2A2A;
+
+  /* ── LIGHT THEME COLORS ── */
+  --color-light-bg:      #F5F5F0;
+  --color-light-surface: #EBEBEB;
+  --color-light-card:    #E2E2DC;
+  --color-light-border:  #D0D0C8;
+  --color-light-hover:   #C8C8C0;
+
+  /* ── INK (TEXT) COLORS ── */
+  --color-ink-dark:        #EDEDED;
+  --color-ink-muted:       #888888;
+  --color-ink-faint:       #444444;
+  --color-ink-light:       #1A1A1A;
+  --color-ink-light-muted: #666666;
+
+  /* ── ACCENT COLORS ── */
+  --color-acid:         #E8FF00;
+  --color-acid-dim:     #C8DC00;
+  --color-acid-dark:    #A0B000;
+  --color-fire:         #FF3D00;
+  --color-fire-dim:     #CC3100;
+
+  /* ── TYPOGRAPHY ── */
+  --font-display: var(--font-bebas), Impact, sans-serif;
+  --font-sans:    var(--font-dm-sans), system-ui, sans-serif;
+  --font-mono:    var(--font-dm-mono), monospace;
+
+  /* ── FONT SIZES ── */
+  --font-size-hero:    clamp(5rem, 14vw, 13rem);
+  --line-height-hero:  0.88;
+  --letter-spacing-hero: -0.02em;
+
+  --font-size-display:    clamp(3rem, 8vw, 7rem);
+  --line-height-display:  0.92;
+  --letter-spacing-display: -0.01em;
+
+  --font-size-title:    clamp(2rem, 4vw, 3.5rem);
+  --line-height-title:  1.05;
+
+  /* ── BACKGROUND IMAGES ── */
+  --background-image-grid-dark:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  --background-image-grid-light:
+    linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
+
+  --background-size-grid: 50px 50px;
+
+  /* ── ANIMATIONS ── */
+  --animate-fade-up:     fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) forwards;
+  --animate-fade-in:     fadeIn 0.5s ease forwards;
+  --animate-slide-right: slideRight 0.5s ease forwards;
+  --animate-marquee:     marquee 30s linear infinite;
+  --animate-marquee-rev: marqueeRev 35s linear infinite;
+  --animate-pulse-slow:  pulse 4s ease-in-out infinite;
+  --animate-spin-slow:   spin 12s linear infinite;
+  --animate-bounce-slow: bounce 3s infinite;
+
+  /* ── EASING ── */
+  --ease-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-expo-in:  cubic-bezier(0.7, 0, 0.84, 0);
+
+  @keyframes fadeUp {
+    0%   { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes slideRight {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(0); }
+  }
+  @keyframes marquee {
+    0%   { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+  @keyframes marqueeRev {
+    0%   { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
+  }
+}
+
+/* ── CSS VARIABLES ── */
+:root {
+  --font-bebas:   'Bebas Neue', Impact, sans-serif;
+  --font-dm-sans: 'DM Sans', system-ui, sans-serif;
+  --font-dm-mono: 'DM Mono', monospace;
+}
+
+/* ── BASE RESETS ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ── DARK THEME (default) ── */
+:root, .dark {
+  --bg:      #0D0D0D;
+  --surface: #141414;
+  --card:    #181818;
+  --border:  #222222;
+  --text:    #EDEDED;
+  --muted:   #888888;
+  --faint:   #333333;
+  --accent:  #E8FF00;
+  --fire:    #FF3D00;
+}
+
+/* ── LIGHT THEME ── */
+.light {
+  --bg:      #F5F5F0;
+  --surface: #EBEBEB;
+  --card:    #E2E2DC;
+  --border:  #D0D0C8;
+  --text:    #1A1A1A;
+  --muted:   #666666;
+  --faint:   #CCCCCC;
+  --accent:  #8A9900;
+  --fire:    #CC2200;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-dm-sans);
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ── CUSTOM SCROLLBAR ── */
+::-webkit-scrollbar       { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* ── TEXT SELECTION ── */
+::selection {
+  background: var(--accent);
+  color: #0D0D0D;
+}
+
+/* ── HIDE DEFAULT CURSOR ── */
+* { cursor: none !important; }
+
+/* ── UTILITY CLASSES ── */
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+
+  .font-display { font-family: var(--font-bebas) !important; }
+
+  .accent-text {
+    color: var(--accent);
+  }
+
+  .surface-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+  }
+
+  .section-padding {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+
+  @media (max-width: 768px) {
+    .section-padding {
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+    }
+  }
+
+  .container-wide {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    .container-wide { padding: 0 4rem; }
+  }
+
+  .noise-texture {
+    position: relative;
+  }
+  .noise-texture::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    border-radius: inherit;
+    z-index: 0;
+  }
+
+  .gradient-mask-r {
+    -webkit-mask-image: linear-gradient(to right, black 60%, transparent 100%);
+    mask-image: linear-gradient(to right, black 60%, transparent 100%);
+  }
+
+  .gradient-mask-l {
+    -webkit-mask-image: linear-gradient(to left, black 60%, transparent 100%);
+    mask-image: linear-gradient(to left, black 60%, transparent 100%);
+  }
+}
+
+/* ── SMOOTH PAGE TRANSITIONS ── */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
